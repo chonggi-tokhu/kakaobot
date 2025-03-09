@@ -1,6 +1,3 @@
-/*
-https://github.com/remote-kakao/core-client/releases/tag/2.0.0-alpha.3
-*/
 "use strict";
 Device.acquireWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, '');
 var scriptName = 'mybot1';
@@ -160,6 +157,15 @@ function onNotificationPosted(sbn) {
     var time = messageBundle.getLong('time');
     var roomId = sbn.getTag();
     var logId = java.lang.Long.toString(bundle.getLong('chatLogId'));
+    onMessage.call(null, {
+        room: { name: roomName, id: roomId, isGroupChat: isGroupChat },
+        id: logId,
+        sender: { name: senderName, hash: senderHash },
+        content: content,
+        containsMention: containsMention,
+        time: time,
+        app: { packageName: packageName, userId: userId },
+    });
     var profileImage = bitmapToBase64(senderPerson.getIcon().getBitmap());
     if (!profileImages.has(userId))
         profileImages.set(userId, new Map());
